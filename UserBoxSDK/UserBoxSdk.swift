@@ -3,7 +3,7 @@
 //  UserBoxSDK
 //
 //  Created by Furkan Bekil on 2.10.2018.
-//  Copyright © 2018 Furkan Bekil. All rights reserved. s
+//  Copyright © 2018 Furkan Bekil. All rights reserved. Test For V2
 //
 
 import UIKit
