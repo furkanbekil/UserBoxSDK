@@ -3,7 +3,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'UserBoxSDK'
-  s.version          = '0.1.0'
+  s.version          = '0.1.2'
   s.summary          = 'This is UserBoxSDK!'
  
   s.description      = <<-DESC

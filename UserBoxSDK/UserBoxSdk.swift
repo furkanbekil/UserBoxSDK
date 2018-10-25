@@ -60,7 +60,7 @@ public class UserBoxSdk: NSObject {
             
         } catch let jsonErr {
             
-            print("Error serializing json:*", jsonErr)
+            print("Error serializing json:* - inituserbox", jsonErr)
             
         }
         
@@ -112,7 +112,7 @@ public class UserBoxSdk: NSObject {
                 
             } catch let jsonErr {
                 
-                print("Error serializing json:*", jsonErr)
+                print("Error serializing json:* - trackEvent = \(eventName)", jsonErr)
                 
             }
             
@@ -180,7 +180,7 @@ public class UserBoxSdk: NSObject {
                 
             } catch let jsonErr {
                 
-                print("Error serializing json:*", jsonErr)
+                print("Error serializing json:* - setPeople", jsonErr)
                 
             }
             
@@ -233,7 +233,7 @@ public class UserBoxSdk: NSObject {
                 
             } catch let jsonErr {
                 
-                print("Error serializing json:*", jsonErr)
+                print("Error serializing json:* trackevent with prperty \(eventName)", jsonErr)
                 
             }
             
@@ -256,16 +256,42 @@ public class UserBoxSdk: NSObject {
     // Will Resign Active
     @objc private func willResignActive() {
         
-        self.trackEvent(eventName: "App goes background")
+        DispatchQueue.background(background: {
+            // do something in background
+            self.trackEvent(eventName: "App goes background")
+        }, completion:{
+            // when background job finished, do something in main thread
+        })
         
     }
     
     @objc private func willBecomeActive() {
         
-        self.trackEvent(eventName: "App comes from background")
+        
+        DispatchQueue.background(background: {
+            // do something in background
+            self.trackEvent(eventName: "App comes from background")
+        }, completion:{
+            // when background job finished, do something in main thread
+        })
         
     }
         
         
         
+}
+
+extension DispatchQueue {
+    
+    static func background(delay: Double = 0.0, background: (()->Void)? = nil, completion: (() -> Void)? = nil) {
+        DispatchQueue.global(qos: .background).async {
+            background?()
+            if let completion = completion {
+                DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: {
+                    completion()
+                })
+            }
+        }
+    }
+    
 }
